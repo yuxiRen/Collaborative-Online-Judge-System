@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Inject } from '@angular/core';
+import { Problem} from '../../models/problem.model';
+import { ActivatedRoute, Params } from "@angular/router";
 
 @Component({
   selector: 'app-problem-detail',
@@ -6,10 +8,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./problem-detail.component.css']
 })
 export class ProblemDetailComponent implements OnInit {
+  problem: Problem;
+  constructor(
+    @Inject('data') private data,
+    private route: ActivatedRoute
 
-  constructor() { }
+  ) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.problem = this.data.getProblem(+params['id']);
+    })
   }
 
 }
