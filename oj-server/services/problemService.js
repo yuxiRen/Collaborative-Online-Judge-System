@@ -1,7 +1,5 @@
 var ProblemModel = require('../models/problemModel');
-
 var getProblems = function() {
-
     return new Promise((resolve, reject) => {
         ProblemModel.find({}, function(err, problems) {
             if (err) {
@@ -32,7 +30,7 @@ var addProblem = function(newProblem) {
                 reject('Problem already exists');
             } else {
                 ProblemModel.count({}, function(err, num) {
-                    newProblem.id = num + 1;
+                    newProblem.id = num +  1;
                     var mongoProblem = new ProblemModel(newProblem);
                     mongoProblem.save();
                     resolve(mongoProblem);

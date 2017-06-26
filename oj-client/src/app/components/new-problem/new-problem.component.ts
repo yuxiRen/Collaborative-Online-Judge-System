@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { Problem } from "../../models/problem.model";
+import { Problem } from '../../models/problem.model';
 
 const DEFAULT_PROBLEM: Problem = Object.freeze({
   id: 0,
@@ -16,13 +16,16 @@ const DEFAULT_PROBLEM: Problem = Object.freeze({
 export class NewProblemComponent implements OnInit {
   newProblem: Problem = Object.assign({}, DEFAULT_PROBLEM);
   difficulties: string[] = ['easy', 'medium', 'hard', 'super'];
-  constructor(@Inject('data') private data) { }
+  constructor(@Inject('data') private data,
+              @Inject('authGuard') private authGuard) { }
 
   ngOnInit() {
   }
 
-  addProblem():void {
-    this.data.addProblem(this.newProblem);
+  addProblem(): void {
+    this.data.addProblem(this.newProblem)
+      .catch(error => console.log(error));
+    this.newProblem = Object.assign({}, DEFAULT_PROBLEM);
   }
 
 }
