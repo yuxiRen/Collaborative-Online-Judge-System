@@ -13,7 +13,8 @@ const routes: Routes = [
     },
     {
         path: 'problems/:id',
-        component: ProblemDetailComponent
+        component: ProblemDetailComponent,
+        canActivate: ['authGuard']
     },
     {
         path: '**',
