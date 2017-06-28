@@ -21,4 +21,7 @@ export class CollaborationService {
   change(delta: string): void {
     this.collaborationSocket.emit('change', delta);
   }
+  cursorMove(cursor: string): void {
+    this.collaborationSocket.emit('cursorMove', cursor);
+  }
 }
