@@ -42,9 +42,7 @@ export class CollaborationService {
       }
 
       let Range = ace.require('ace/range').Range;
-      let newMarker = session.addMarker(new Range(x, y, x, y+1),
-                                        'editor_cursor_' + changeClientId,
-                                        true);
+      let newMarker = session.addMarker(new Range(x, y, x, y+1), 'editor_cursor_' + changeClientId, true);
       this.clientsInfo[changeClientId]['marker'] = newMarker;
     });
 
