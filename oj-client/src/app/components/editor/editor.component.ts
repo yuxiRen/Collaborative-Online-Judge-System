@@ -33,7 +33,6 @@ int main() {
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      // this.problem = this.data.getProblem(+params['id']);
       this.sessionId = params['id'];
       this.initEditor();
     });
@@ -45,9 +44,6 @@ int main() {
     this.editor.setFontSize(18);
 
     this.editor.$blockScrolling = Infinity;
-
-    // this.editor.getSession().setMode('ace/mode/java');
-    // this.editor.setValue(this.defaultContent['Java']);
     this.resetEditor();
     this.collaboration.init(this.editor, this.sessionId);
     this.editor.lastAppliedChange = null;
@@ -68,14 +64,11 @@ int main() {
 
   setLanguage(language: string) {
     this.language = language;
-    // add a map for language and js file name
-    // this.editor.getSession().setMode(`ace/mode/${language.toLowerCase()}`);
-    // this.editor.setValue(this.defaultContent[language]);
     this.resetEditor();
   }
 
   submit() {
     let userCodes = this.editor.getValue();
-    console.log('submit....' + userCodes);
   }
 }
+
