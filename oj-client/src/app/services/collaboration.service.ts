@@ -5,16 +5,16 @@ declare var ace: any;
 @Injectable()
 export class CollaborationService {
   clientsInfo: Object = {};
-
   clientNum: number = 0;
   collaborationSocket: any;
   constructor() { }
 
   init(editor: any, sessionId: string): void {
-    this.collaborationSocket = io(window.location.origin, {query: 'sessionId=' + sessionId});
-
+    this.collaborationSocket = io(window.location.origin,
+                                   {query: 'sessionId=' + sessionId});
     // listener for change event
     this.collaborationSocket.on('change', (delta: string) => {
+      console.log('collaboration service: editor changed by ' + delta);
       delta = JSON.parse(delta);
       editor.lastAppliedChange = delta;
       editor.getSession().getDocument().applyDeltas([delta]);
@@ -22,6 +22,8 @@ export class CollaborationService {
 
     // listener for cursorMove events emitted from server
     this.collaborationSocket.on('cursorMove', (cursor: string) => {
+      // cursor: row: xxx, column: xxx, socketId: xxx
+      console.log('RECEIVED from SERVER cursor move: ' + cursor);
       cursor = JSON.parse(cursor);
       const x = cursor['row'];
       const y = cursor['column'];
@@ -41,8 +43,11 @@ export class CollaborationService {
         this.clientNum++;
       }
 
+      // TODO: draw a new one
       let Range = ace.require('ace/range').Range;
-      let newMarker = session.addMarker(new Range(x, y, x, y+1), 'editor_cursor_' + changeClientId, true);
+      let newMarker = session.addMarker(new Range(x, y, x, y+1),
+                                        'editor_cursor_' + changeClientId,
+                                        true);
       this.clientsInfo[changeClientId]['marker'] = newMarker;
     });
 

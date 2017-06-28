@@ -28,7 +28,8 @@ int main() {
    def example():
        # Write your Python code here`
   }
-  constructor(@Inject('collaboration') private collaboration, private route: ActivatedRoute) { }
+  constructor(@Inject('collaboration') private collaboration,
+              private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
@@ -47,20 +48,25 @@ int main() {
     this.collaboration.init(this.editor, this.sessionId);
     this.editor.lastAppliedChange = null;
 
+    // registering change callback
     this.editor.on('change', (e) => {
+      console.log('Editor Component: ' + JSON.stringify(e));
       if (this.editor.lastAppliedChange != e) {
         this.collaboration.change(JSON.stringify(e));
       }
     });
 
+    // registering cursor change callback
     this.editor.getSession().getSelection().on('changeCursor', () => {
       let cursor = this.editor.getSession().getSelection().getCursor();
+      console.log('CLIENT! CURSOR' + JSON.stringify(cursor));
       this.collaboration.cursorMove(JSON.stringify(cursor));
     });
+
+    this.collaboration.restoreBuffer();
   }
 
   resetEditor(): void {
-    console.log('Resetting editor');
     this.editor.getSession().setMode(`ace/mode/${this.language.toLowerCase()}`);
     this.editor.setValue(this.defaultContent[this.language]);
   }
@@ -74,4 +80,3 @@ int main() {
     let userCodes = this.editor.getValue();
   }
 }
-

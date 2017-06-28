@@ -334,18 +334,22 @@ var EditorComponent = (function () {
         this.resetEditor();
         this.collaboration.init(this.editor, this.sessionId);
         this.editor.lastAppliedChange = null;
+        // registering change callback
         this.editor.on('change', function (e) {
+            console.log('Editor Component: ' + JSON.stringify(e));
             if (_this.editor.lastAppliedChange != e) {
                 _this.collaboration.change(JSON.stringify(e));
             }
         });
+        // registering cursor change callback
         this.editor.getSession().getSelection().on('changeCursor', function () {
             var cursor = _this.editor.getSession().getSelection().getCursor();
+            console.log('CLIENT! CURSOR' + JSON.stringify(cursor));
             _this.collaboration.cursorMove(JSON.stringify(cursor));
         });
+        this.collaboration.restoreBuffer();
     };
     EditorComponent.prototype.resetEditor = function () {
-        console.log('Resetting editor');
         this.editor.getSession().setMode("ace/mode/" + this.language.toLowerCase());
         this.editor.setValue(this.defaultContent[this.language]);
     };
@@ -636,12 +640,15 @@ var CollaborationService = (function () {
         this.collaborationSocket = io(window.location.origin, { query: 'sessionId=' + sessionId });
         // listener for change event
         this.collaborationSocket.on('change', function (delta) {
+            console.log('collaboration service: editor changed by ' + delta);
             delta = JSON.parse(delta);
             editor.lastAppliedChange = delta;
             editor.getSession().getDocument().applyDeltas([delta]);
         });
         // listener for cursorMove events emitted from server
         this.collaborationSocket.on('cursorMove', function (cursor) {
+            // cursor: row: xxx, column: xxx, socketId: xxx
+            console.log('RECEIVED from SERVER cursor move: ' + cursor);
             cursor = JSON.parse(cursor);
             var x = cursor['row'];
             var y = cursor['column'];
@@ -660,6 +667,7 @@ var CollaborationService = (function () {
                 document.body.appendChild(css);
                 _this.clientNum++;
             }
+            // TODO: draw a new one
             var Range = ace.require('ace/range').Range;
             var newMarker = session.addMarker(new Range(x, y, x, y + 1), 'editor_cursor_' + changeClientId, true);
             _this.clientsInfo[changeClientId]['marker'] = newMarker;
