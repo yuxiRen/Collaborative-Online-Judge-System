@@ -18,13 +18,11 @@ module.exports = function(io) {
         } else {
             redisClient.get(sessionPath + sessionId, function(data) {
                 if (data) {
-                    console.log('session terminated previously, pulling back...');
                     collaborations[sessionId] = {
                         'cachedInstructions': JSON.parse(data),
                         'participants': []
                     };
                 } else {
-                    console.log('Nobody did this before, creating new session');
                     collaborations[sessionId] = {
                         'cachedInstructions': [],
                         'participants': []
@@ -36,7 +34,6 @@ module.exports = function(io) {
 
         // add change event listener
         socket.on('change', delta => {
-            console.log('change ' + socketIdToSessionId[socket.id] + ' ' + delta);
             let sessionId = socketIdToSessionId[socket.id];
             if (sessionId in collaborations) {
                 collaborations[sessionId]['cachedInstructions'].push(

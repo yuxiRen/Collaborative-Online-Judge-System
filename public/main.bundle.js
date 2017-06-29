@@ -38,8 +38,8 @@ var ProblemDetailComponent = (function () {
 ProblemDetailComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-problem-detail',
-        template: __webpack_require__(399),
-        styles: [__webpack_require__(385)]
+        template: __webpack_require__(400),
+        styles: [__webpack_require__(386)]
     }),
     __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')),
     __metadata("design:paramtypes", [Object, typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object])
@@ -86,8 +86,8 @@ var ProblemListComponent = (function () {
 ProblemListComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-problem-list',
-        template: __webpack_require__(400),
-        styles: [__webpack_require__(386)]
+        template: __webpack_require__(401),
+        styles: [__webpack_require__(387)]
     }),
     __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')),
     __metadata("design:paramtypes", [Object])
@@ -118,7 +118,7 @@ webpackEmptyContext.id = 202;
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser_dynamic__ = __webpack_require__(216);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__angular_core__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(227);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__environments_environment__ = __webpack_require__(228);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__app_app_module__ = __webpack_require__(218);
 
 
@@ -153,8 +153,8 @@ var AppComponent = (function () {
 AppComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-root',
-        template: __webpack_require__(395),
-        styles: [__webpack_require__(381)]
+        template: __webpack_require__(396),
+        styles: [__webpack_require__(382)]
     })
 ], AppComponent);
 
@@ -307,13 +307,14 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 
 
 var EditorComponent = (function () {
-    function EditorComponent(collaboration, route) {
+    function EditorComponent(collaboration, data, route) {
         this.collaboration = collaboration;
+        this.data = data;
         this.route = route;
         this.language = 'Java';
         this.languages = ['Java', 'C++', 'Python'];
         this.defaultContent = {
-            'Java': "public class Example {\n  public static void main(String[] args) {\n    // Type your Java code here\n    }\n}",
+            'Java': "public class Example {\npublic static void main(String[] args) {\n    // Type your Java code here\n    }\n}",
             'C++': "#include <iostream>\nusing namespace std;\nint main() {\n  // Type your C++ code here\n  return 0;\n}",
             'Python': "class Solution:\n   def example():\n       # Write your Python code here"
         };
@@ -350,26 +351,37 @@ var EditorComponent = (function () {
         this.collaboration.restoreBuffer();
     };
     EditorComponent.prototype.resetEditor = function () {
+        console.log('Resetting editor');
         this.editor.getSession().setMode("ace/mode/" + this.language.toLowerCase());
         this.editor.setValue(this.defaultContent[this.language]);
+        this.output = '';
     };
     EditorComponent.prototype.setLanguage = function (language) {
         this.language = language;
         this.resetEditor();
     };
     EditorComponent.prototype.submit = function () {
-        var userCodes = this.editor.getValue();
+        var _this = this;
+        this.output = '';
+        var userCode = this.editor.getValue();
+        var code = {
+            userCode: userCode,
+            lang: this.language.toLocaleLowerCase()
+        };
+        this.data.buildAndRun(code)
+            .then(function (res) { return _this.output = res.text; });
     };
     return EditorComponent;
 }());
 EditorComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-editor',
-        template: __webpack_require__(396),
-        styles: [__webpack_require__(382)]
+        template: __webpack_require__(397),
+        styles: [__webpack_require__(383)]
     }),
     __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('collaboration')),
-    __metadata("design:paramtypes", [Object, typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object])
+    __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')),
+    __metadata("design:paramtypes", [Object, Object, typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1__angular_router__["c" /* ActivatedRoute */]) === "function" && _a || Object])
 ], EditorComponent);
 
 var _a;
@@ -420,8 +432,8 @@ var NavbarComponent = (function () {
 NavbarComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-navbar',
-        template: __webpack_require__(397),
-        styles: [__webpack_require__(383)]
+        template: __webpack_require__(398),
+        styles: [__webpack_require__(384)]
     }),
     __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('auth')),
     __metadata("design:paramtypes", [Object])
@@ -475,8 +487,8 @@ var NewProblemComponent = (function () {
 NewProblemComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Component"])({
         selector: 'app-new-problem',
-        template: __webpack_require__(398),
-        styles: [__webpack_require__(384)]
+        template: __webpack_require__(399),
+        styles: [__webpack_require__(385)]
     }),
     __param(0, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('data')),
     __param(1, __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["Inject"])('authGuard')),
@@ -545,7 +557,7 @@ var _a;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt__ = __webpack_require__(228);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt__ = __webpack_require__(229);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_angular2_jwt___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_angular2_jwt__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_router__ = __webpack_require__(53);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AuthService; });
@@ -617,7 +629,7 @@ var _a;
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_colors__ = __webpack_require__(671);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__assets_colors__ = __webpack_require__(227);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CollaborationService; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -700,7 +712,7 @@ CollaborationService = __decorate([
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(8);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(402);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__ = __webpack_require__(403);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_rxjs_Rx___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_rxjs_Rx__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__angular_http__ = __webpack_require__(87);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3_rxjs_add_operator_toPromise__ = __webpack_require__(164);
@@ -773,6 +785,56 @@ var _a;
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COLORS; });
+var COLORS = [
+    "#0000ff",
+    "#a52a2a",
+    "#00ffff",
+    "#00008b",
+    "#008b8b",
+    "#a9a9a9",
+    "#006400",
+    "#bdb76b",
+    "#8b008b",
+    "#556b2f",
+    "#ff8c00",
+    "#9932cc",
+    "#8b0000",
+    "#e9967a",
+    "#9400d3",
+    "#ff00ff",
+    "#ffd700",
+    "#008000",
+    "#4b0082",
+    "#f0e68c",
+    "#add8e6",
+    "#e0ffff",
+    "#90ee90",
+    "#d3d3d3",
+    "#ffb6c1",
+    "#ffffe0",
+    "#00ff00",
+    "#ff00ff",
+    "#800000",
+    "#000080",
+    "#808000",
+    "#ffa500",
+    "#ffc0cb",
+    "#800080",
+    "#800080",
+    "#ff0000",
+    "#c0c0c0",
+    "#ffffff",
+    "#ffff00"
+];
+//# sourceMappingURL=/Users/Rita/Desktop/Collaborative-Online-Judge-System/oj-client/src/colors.js.map
+
+/***/ }),
+
+/***/ 228:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return environment; });
 // The file contents for the current environment will overwrite these during build.
 // The build system defaults to the dev environment which uses `environment.ts`, but if you do
@@ -786,24 +848,6 @@ var environment = {
 
 /***/ }),
 
-/***/ 381:
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__(33)(false);
-// imports
-
-
-// module
-exports.push([module.i, "", ""]);
-
-// exports
-
-
-/*** EXPORTS FROM exports-loader ***/
-module.exports = module.exports.toString();
-
-/***/ }),
-
 /***/ 382:
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -812,7 +856,7 @@ exports = module.exports = __webpack_require__(33)(false);
 
 
 // module
-exports.push([module.i, "@media screen {\n #editor {\n   height: 600px;\n }\n .lang-select {\n   width: 100px;\n   margin-right: 10px;\n }\n header .btn {\n   margin: 0 5px;\n }\n footer .btn {\n   margin: 0 5px;\n }\n .editor-footer, .editor-header {\n   margin: 10px 0;\n }\n .cursor {\n   /*position:absolute;*/\n   background: rgba(0, 250, 0, 0.5);\n   z-index: 40;\n   width: 2px!important\n }\n}\n", ""]);
+exports.push([module.i, "", ""]);
 
 // exports
 
@@ -830,7 +874,7 @@ exports = module.exports = __webpack_require__(33)(false);
 
 
 // module
-exports.push([module.i, "", ""]);
+exports.push([module.i, "@media screen {\n #editor {\n   height: 600px;\n }\n .lang-select {\n   width: 100px;\n   margin-right: 10px;\n }\n header .btn {\n   margin: 0 5px;\n }\n footer .btn {\n   margin: 0 5px;\n }\n .editor-footer, .editor-header {\n   margin: 10px 0;\n }\n .cursor {\n   /*position:absolute;*/\n   background: rgba(0, 250, 0, 0.5);\n   z-index: 40;\n   width: 2px!important\n }\n}\n", ""]);
 
 // exports
 
@@ -884,6 +928,24 @@ exports = module.exports = __webpack_require__(33)(false);
 
 
 // module
+exports.push([module.i, "", ""]);
+
+// exports
+
+
+/*** EXPORTS FROM exports-loader ***/
+module.exports = module.exports.toString();
+
+/***/ }),
+
+/***/ 387:
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__(33)(false);
+// imports
+
+
+// module
 exports.push([module.i, ".difficulty {\n  min-width: 65px;\n  margin-right: 10px;\n}\n\n.label.difficulty {\n  padding-top: 0.6em;\n  color: #fbfdfa;\n  font-size: 12px;\n}\n\n.title {\n  font-size: 1.2em;\n}\n\n.diff-easy {\n  background-color: #42ebf4;\n}\n\n.diff-medium {\n  background-color: #92cf5c;\n}\n\n.diff-hard {\n  background-color: #dd0d1e;\n}\n\n.diff-super {\n  background-color: #8d16e2;\n}\n", ""]);
 
 // exports
@@ -894,105 +956,55 @@ module.exports = module.exports.toString();
 
 /***/ }),
 
-/***/ 395:
+/***/ 396:
 /***/ (function(module, exports) {
 
 module.exports = "<app-navbar></app-navbar>\n<router-outlet></router-outlet>\n"
 
 /***/ }),
 
-/***/ 396:
-/***/ (function(module, exports) {
-
-module.exports = "<section>\n  <header>\n    <select class=\"form-control pull-left lang-select\" id=\"language\" name=\"language\" [(ngModel)]=\"language\"(change)=\"setLanguage(language)\">\n       <option *ngFor=\"let language of languages\" [value]=\"language\">\n         {{language}}\n       </option>\n    </select>\n    <button type=\"button\" class=\"btn btn-default\" data-toggle=\"modal\" data-target=\"#myModal\">\n      <span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span>\n    </button>\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h1 class=\"modal-title\" id=\"exampleModalLabel\">Reset?</h1>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            Are you sure? Are you okay?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"\n              (click)=\"resetEditor()\">Reset</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n\n  <div class=\"row\">\n    <div id=\"editor\">\n    </div>\n  </div>\n  <footer>\n    <button type=\"button\" class=\"btn btn-success pull-right\" (click)=\"submit()\">\n      Submit Solution\n    </button>\n  </footer>\n</section>\n"
-
-/***/ }),
-
 /***/ 397:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\">\n  <nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <form class=\"navbar-form navbar-left\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search for problems\">\n        </div>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li *ngIf=\"!auth.authenticated()\">\n          <form class=\"navbar-form\">\n            <button type=\"button\" class=\"btn btn-primary\"\n              (click)=\"login()\"\n            >Sign in</button>\n          </form>\n        </li>\n        <li class=\"dropdown\" *ngIf=\"auth.authenticated()\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{username}} <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">My profile</a></li>\n            <li><a href=\"#\">My favorites</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a (click)=\"logout()\">Logout</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n</div>\n"
+module.exports = "<section>\n  <header>\n    <select class=\"form-control pull-left lang-select\" id=\"language\"\n        name=\"language\"\n        [(ngModel)]=\"language\"\n        (change)=\"setLanguage(language)\"\n       >\n       <option *ngFor=\"let language of languages\"\n       [value]=\"language\">\n         {{language}}\n       </option>\n    </select>\n    <button type=\"button\" class=\"btn btn-default\" data-toggle=\"modal\" data-target=\"#myModal\">\n      <span class=\"glyphicon glyphicon-refresh\" aria-hidden=\"true\"></span>\n    </button>\n    <!-- Modal -->\n    <div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"exampleModalLabel\" aria-hidden=\"true\">\n      <div class=\"modal-dialog\" role=\"document\">\n        <div class=\"modal-content\">\n          <div class=\"modal-header\">\n            <h1 class=\"modal-title\" id=\"exampleModalLabel\">Reset?</h1>\n            <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\">\n              <span aria-hidden=\"true\">&times;</span>\n            </button>\n          </div>\n          <div class=\"modal-body\">\n            Are you sure? Are you okay?\n          </div>\n          <div class=\"modal-footer\">\n            <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"\n              (click)=\"resetEditor()\">Reset</button>\n            <button type=\"button\" class=\"btn btn-primary\" data-dismiss=\"modal\">Cancel</button>\n          </div>\n        </div>\n      </div>\n    </div>\n  </header>\n\n  <div class=\"row\">\n    <div id=\"editor\">\n    </div>\n  </div>\n  <div class=\"row\">\n    {{output}}\n  </div>\n  <footer>\n    <button type=\"button\" class=\"btn btn-success pull-right\" (click)=\"submit()\">\n      Submit Solution\n    </button>\n  </footer>\n</section>\n"
 
 /***/ }),
 
 /***/ 398:
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"authGuard.isAdmin()\">\n  <form #formRef = \"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"problemName\">problem name</label>\n      <input name = \"problemName\" id=\"problemName\" class=\"form-control\" type=\"text\" required placeholder=\"Please enter problem name\" [(ngModel)] = \"newProblem.name\">\n    </div>\n    <div class=\"form-group\">\n      <label for=\"problemDesc\">problem description</label>\n      <textarea name = \"problemDesc\" id=\"problemDesc\" class=\"form-control\" placeholder=\"Please enter problem description\" [(ngModel)] = \"newProblem.desc\" rows=\"3\">\n      </textarea>\n    </div>\n    <div class=\"form-group\">\n       <label for=\"problemDifficulty\">Difficulty</label>\n       <select class=\"form-control\" id=\"difficulty\" name=\"difficulty\" [(ngModel)] = \"newProblem.difficulty\">\n        <option *ngFor = \"let difficulty of difficulties\" [value] = \"difficulty\">\n          {{difficulty}}\n        </option>\n       </select>\n    </div>\n    <div class=\"row\">\n      <div class = \"col-md-12\">\n        <button type=\"submit\" class=\"btn btn-primary pull-right\"\n          (click) = \"addProblem()\"\n        > Add problem </button>\n      </div>\n    </div>\n  </form>\n</div>\n<br/>\n<br/>\n"
+module.exports = "<div class=\"container\">\n  <nav class=\"navbar navbar-default\">\n  <div class=\"container-fluid\">\n    <!-- Brand and toggle get grouped for better mobile display -->\n    <div class=\"navbar-header\">\n      <button type=\"button\" class=\"navbar-toggle collapsed\" data-toggle=\"collapse\" data-target=\"#bs-example-navbar-collapse-1\" aria-expanded=\"false\">\n        <span class=\"sr-only\">Toggle navigation</span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n        <span class=\"icon-bar\"></span>\n      </button>\n      <a class=\"navbar-brand\" href=\"#\">{{title}}</a>\n    </div>\n\n    <!-- Collect the nav links, forms, and other content for toggling -->\n    <div class=\"collapse navbar-collapse\" id=\"bs-example-navbar-collapse-1\">\n      <form class=\"navbar-form navbar-left\">\n        <div class=\"form-group\">\n          <input type=\"text\" class=\"form-control\" placeholder=\"Search for problems\">\n        </div>\n      </form>\n      <ul class=\"nav navbar-nav navbar-right\">\n        <li *ngIf=\"!auth.authenticated()\">\n          <form class=\"navbar-form\">\n            <button type=\"button\" class=\"btn btn-primary\"\n              (click)=\"login()\"\n            >Sign in</button>\n          </form>\n        </li>\n        <li class=\"dropdown\" *ngIf=\"auth.authenticated()\">\n          <a href=\"#\" class=\"dropdown-toggle\" data-toggle=\"dropdown\" role=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\">{{username}} <span class=\"caret\"></span></a>\n          <ul class=\"dropdown-menu\">\n            <li><a href=\"#\">My profile</a></li>\n            <li><a href=\"#\">My favorites</a></li>\n            <li><a href=\"#\">Something else here</a></li>\n            <li role=\"separator\" class=\"divider\"></li>\n            <li><a (click)=\"logout()\">Logout</a></li>\n          </ul>\n        </li>\n      </ul>\n    </div><!-- /.navbar-collapse -->\n  </div><!-- /.container-fluid -->\n</nav>\n</div>\n"
 
 /***/ }),
 
 /***/ 399:
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"container\" *ngIf=\"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{problem.id}}. {{problem.name}}\n    </h2>\n    <p>\n      {{problem.desc}}\n    </p>\n  </div>\n  <div class=\"hidden-xs col-sm-12 col-md-8\">\n    <app-editor></app-editor>\n  </div>\n</div>\n"
+module.exports = "<div *ngIf=\"authGuard.isAdmin()\">\n  <form #formRef = \"ngForm\">\n    <div class=\"form-group\">\n      <label for=\"problemName\">problem name</label>\n      <input name = \"problemName\" id=\"problemName\" class=\"form-control\" type=\"text\" required placeholder=\"Please enter problem name\" [(ngModel)] = \"newProblem.name\">\n    </div>\n    <div class=\"form-group\">\n      <label for=\"problemDesc\">problem description</label>\n      <textarea name = \"problemDesc\" id=\"problemDesc\" class=\"form-control\" placeholder=\"Please enter problem description\" [(ngModel)] = \"newProblem.desc\" rows=\"3\">\n      </textarea>\n    </div>\n    <div class=\"form-group\">\n       <label for=\"problemDifficulty\">Difficulty</label>\n       <select class=\"form-control\" id=\"difficulty\" name=\"difficulty\" [(ngModel)] = \"newProblem.difficulty\">\n        <option *ngFor = \"let difficulty of difficulties\" [value] = \"difficulty\">\n          {{difficulty}}\n        </option>\n       </select>\n    </div>\n    <div class=\"row\">\n      <div class = \"col-md-12\">\n        <button type=\"submit\" class=\"btn btn-primary pull-right\"\n          (click) = \"addProblem()\"\n        > Add problem </button>\n      </div>\n    </div>\n  </form>\n</div>\n<br/>\n<br/>\n"
 
 /***/ }),
 
 /***/ 400:
 /***/ (function(module, exports) {
 
+module.exports = "<div class=\"container\" *ngIf=\"problem\">\n  <div class=\"col-xs-12 col-md-4\">\n    <h2>\n      {{problem.id}}. {{problem.name}}\n    </h2>\n    <p>\n      {{problem.desc}}\n    </p>\n  </div>\n  <div class=\"hidden-xs col-sm-12 col-md-8\">\n    <app-editor></app-editor>\n  </div>\n</div>\n"
+
+/***/ }),
+
+/***/ 401:
+/***/ (function(module, exports) {
+
 module.exports = "<div class=\"container\">\n  <app-new-problem></app-new-problem>\n  <div class=\"list-group\">\n    <a class=\"list-group-item\" *ngFor=\"let problem of problems\"\n      [routerLink] = \"['/problems', problem.id]\">\n      <span class=\"{{'pull-left label difficulty diff-' + problem.difficulty.toLocaleLowerCase()}}\">{{problem.difficulty}}</span>\n      <strong class=\"title\">{{problem.id}}. {{problem.name}}</strong>\n    </a>\n  </div>\n</div>\n\n"
 
 /***/ }),
 
-/***/ 667:
+/***/ 668:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__(203);
 
 
-/***/ }),
-
-/***/ 671:
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return COLORS; });
-var COLORS = [
-    "#0000ff",
-    "#a52a2a",
-    "#00ffff",
-    "#00008b",
-    "#008b8b",
-    "#a9a9a9",
-    "#006400",
-    "#bdb76b",
-    "#8b008b",
-    "#556b2f",
-    "#ff8c00",
-    "#9932cc",
-    "#8b0000",
-    "#e9967a",
-    "#9400d3",
-    "#ff00ff",
-    "#ffd700",
-    "#008000",
-    "#4b0082",
-    "#f0e68c",
-    "#add8e6",
-    "#e0ffff",
-    "#90ee90",
-    "#d3d3d3",
-    "#ffb6c1",
-    "#ffffe0",
-    "#00ff00",
-    "#ff00ff",
-    "#800000",
-    "#000080",
-    "#808000",
-    "#ffa500",
-    "#ffc0cb",
-    "#800080",
-    "#800080",
-    "#ff0000",
-    "#c0c0c0",
-    "#ffffff",
-    "#ffff00"
-];
-//# sourceMappingURL=/Users/Rita/Desktop/Collaborative-Online-Judge-System/oj-client/src/colors.js.map
-
 /***/ })
 
-},[667]);
+},[668]);
 //# sourceMappingURL=main.bundle.js.map
