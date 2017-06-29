@@ -25,5 +25,27 @@ router.post('/problems', jsonParser, function(req, res) {
             res.status(400).send('problem name already exists');
         });
 });
+router.post('/build_and_run', jsonParser, function(req, res) {
+    const userCode = req.body.userCode;
+    const lang = req.body.lang;
+    console.log('lang: ' + lang + '&&&& userCode: ' + userCode);
+
+    // res.json({'text': 'hello from nodejs hahahaha'});
+    restClient.methods.build_and_run(
+        {
+            data: {
+                code: userCode,
+                lang: lang
+            },
+            headers: { 'Content-Type': 'application/json'}
+        }, (data, response) => {
+            console.log('Received from execution server: ' + data);
+            const text = `Build Ouput: ${data['build']}
+            Execute ouput: ${data['run']}`;
+            data['text'] = text;
+            res.json(data);
+        }
+    );
+});
 
 module.exports = router;

@@ -765,6 +765,18 @@ var DataService = (function () {
         })
             .catch(this.handleError);
     };
+    DataService.prototype.buildAndRun = function (data) {
+        var headers = new __WEBPACK_IMPORTED_MODULE_2__angular_http__["Headers"]({
+            'content-type': 'application/json'
+        });
+        return this.http.post('api/v1/build_and_run', data, headers)
+            .toPromise()
+            .then(function (res) {
+            console.log(res);
+            return res.json();
+        })
+            .catch(this.handleError);
+    };
     DataService.prototype.handleError = function (error) {
         console.error('An error happened', error);
         return Promise.reject(error.body || error);
